@@ -6,7 +6,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { VisitAccount } from "src/components/account/visit-account";
 
-const visitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
+const VisitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
   const router = useRouter();
   const { vid } = router.query;
   const currentVisit = visits.find((visit) => visit._id === vid) || {};
@@ -26,16 +26,13 @@ const visitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item lg={12} md={12} xs={12}>
-
-            <VisitAccount
-            
-            visitProfile ={currentVisit}
-            onDeleteVisit={(id) => deleteAccountVisit(id, router)}
-            updateAccountVisit={(id,updatedStatus) =>
-            updatedAccountVisit(id, updatedStatus ,router)
-            }/>
-          
-            
+              <VisitAccount
+                visitProfile={currentVisit}
+                onDeleteVisit={(id) => deleteAccountVisit(id, router)}
+                updateAccountVisit={(id, updatedStatus) =>
+                  updatedAccountVisit(id, updatedStatus, router)
+                }
+              />
             </Grid>
           </Grid>
         </Container>
@@ -44,21 +41,18 @@ const visitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
   );
 };
 
-visitProfile.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+VisitProfile.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 const mapStateToProps = ({ visits }) => ({
   visits: visits.visits,
 });
 
-
-  const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     deleteAccountVisit: (id, router) => dispatch(actions.deleteAccountVisit(id, router)),
     updatedAccountVisit: (id, status, router) =>
       dispatch(actions.updatedAccountVisit(id, status, router)),
   };
-  };
+};
 
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(visitProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(VisitProfile);

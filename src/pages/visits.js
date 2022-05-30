@@ -25,11 +25,10 @@ const Visits = ({ visits, loadVisits }) => {
         <Box sx={{ pt: 3 }}>
           <Grid container spacing={3}>
             {visits.map((visit) => (
-              <NextLink href={`/visit/${visit._id}`} passHref> 
-              <Grid 
-               item key={visit._id} lg={4} md={6} xs={12}>
-                <VisitCard visit={visit} />
-              </Grid>
+              <NextLink key={visit._id} href={`/visit/${visit._id}`} passHref>
+                <Grid item lg={4} md={6} xs={12}>
+                  <VisitCard visit={visit} />
+                </Grid>
               </NextLink>
             ))}
           </Grid>

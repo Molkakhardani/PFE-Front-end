@@ -7,14 +7,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-const DeleteModal = ({ open, handleClose, handleAction }) => {
+const DeleteModal = ({ open, title, description, handleClose, handleAction }) => {
   return (
     <Dialog open={open} onClose={handleClose} datacy="delete-modal">
-      <DialogTitle id="alert-dialog-slide-title">Supression de compte</DialogTitle>
+      <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-          voulez-vous vraiment supprimer ce compte ?
-        </DialogContentText>
+        <DialogContentText id="alert-dialog-slide-description">{description}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

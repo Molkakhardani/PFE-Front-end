@@ -76,4 +76,7 @@ export const newVisitSchema = {
       maximum: 200,
     },
   },
+  status: {
+    presence: { allowEmpty: false, message: "est obligatoire" },
+  },
 };

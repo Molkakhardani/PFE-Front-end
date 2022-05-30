@@ -21,12 +21,15 @@ const visitMapping = [
     color: "info",
     wording: "cloturée",
   },
-  
 ];
 
 const VisitStatus = (code) => {
   const { color, wording } = visitMapping.find((visit) => visit.code === code) || {};
   return <SeverityPill color={color}>{wording}</SeverityPill>;
+};
+
+const formatDateHandler = (date) => {
+  return date ? format(new Date(date), "dd/MM/yyyy") : "";
 };
 
 export const VisitCard = ({ visit, ...rest }) => (
@@ -76,12 +79,12 @@ export const VisitCard = ({ visit, ...rest }) => (
         >
           <ClockIcon color="action" />
           <Typography color="textSecondary" display="inline" sx={{ pl: 1 }} variant="body2">
-            {visit?.date}
+            {formatDateHandler(visit?.date)}
           </Typography>
         </Grid>
         <Grid
           item
-          sx={{ 
+          sx={{
             alignItems: "center",
             display: "flex",
           }}

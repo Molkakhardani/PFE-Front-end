@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import moment from "moment";
 import validate from "validate.js";
 import * as actions from "../store/actions";
 import { newVisitSchema } from "../utils/schema";
@@ -65,7 +66,7 @@ const NewVisit = ({ createVisit }) => {
 
   const createVisitHandler = (event) => {
     event.preventDefault();
-    const visitData = { ...formState.values, date: startDate.toString() };
+    const visitData = { ...formState.values, date: moment(startDate).format("LLLL") };
     createVisit(visitData, router);
   };
 
@@ -164,21 +165,20 @@ const NewVisit = ({ createVisit }) => {
             dateFormat="MM/dd/yyyy"
           />
           <FormControl fullWidth style={{ margin: "20px 0" }}>
-          <InputLabel id="demo-simple-select-label">status</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            onChange={handleChange}
-            
-            name="status"
-            variant="outlined"
-          >
-            <MenuItem value={"0"}>Cloturé</MenuItem>
-            <MenuItem value={"1"}>en cours</MenuItem>
-            <MenuItem value={"2"}>plannifié</MenuItem>
-            
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={handleChange}
+              name="status"
+              variant="outlined"
+              value={formState.values?.status || ""}
+            >
+              <MenuItem value={"0"}>Cloturé</MenuItem>
+              <MenuItem value={"1"}>en cours</MenuItem>
+              <MenuItem value={"2"}>plannifié</MenuItem>
+            </Select>
+          </FormControl>
         </div>
         <Box sx={{ py: 2 }}>
           <Button

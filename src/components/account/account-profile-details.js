@@ -79,6 +79,8 @@ export const AccountProfileDetails = (props) => {
         open={openModal}
         handleClose={() => setOpenModal(false)}
         handleAction={() => onDeleteUser(_id)}
+        title="Supression de compte"
+        description="voulez-vous vraiment supprimer ce compte ?"
       />
       <Card>
         <CardHeader
@@ -217,9 +219,7 @@ export const AccountProfileDetails = (props) => {
               justifyContent: "flex-end",
               p: 2,
             }}
-          >
-          
-          </Box>
+          ></Box>
         )}
       </Card>
     </form>
