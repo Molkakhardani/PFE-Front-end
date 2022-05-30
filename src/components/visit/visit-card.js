@@ -7,7 +7,7 @@ import { SeverityPill } from "../severity-pill";
 
 const visitMapping = [
   {
-    code: 0,
+    code: 2,
     color: "warning",
     wording: "plannifiée",
   },
@@ -17,15 +17,11 @@ const visitMapping = [
     wording: "en cours",
   },
   {
-    code: 2,
+    code: 0,
     color: "info",
     wording: "cloturée",
   },
-  {
-    code: 3,
-    color: "error",
-    wording: "annulée",
-  },
+  
 ];
 
 const VisitStatus = (code) => {

@@ -37,7 +37,7 @@ export const UsersList = ({ users, ...rest }) => {
             <TableBody>
               {users.map(
                 ({ _id, lastName, firstName, email, imageUrl, phoneNumber, date, active }) => (
-                  <Link href={`/user/${_id}`}>
+                  <Link href={`/user/${_id}`}>  
                     <TableRow hover key={_id}>
                       <TableCell>
                         <Box

@@ -218,9 +218,7 @@ export const AccountProfileDetails = (props) => {
               p: 2,
             }}
           >
-            <Button color="primary" variant="contained">
-              Save details
-            </Button>
+          
           </Box>
         )}
       </Card>

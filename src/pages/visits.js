@@ -6,7 +6,7 @@ import { Box, Container, Grid, Pagination } from "@mui/material";
 import { VisitCard } from "../components/visit/visit-card";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { ProductListToolbar } from "../components/visit/product-list-toolbar";
-
+import NextLink from "next/link";
 const Visits = ({ visits, loadVisits }) => {
   useEffect(() => {
     loadVisits();
@@ -25,9 +25,12 @@ const Visits = ({ visits, loadVisits }) => {
         <Box sx={{ pt: 3 }}>
           <Grid container spacing={3}>
             {visits.map((visit) => (
-              <Grid item key={visit._id} lg={4} md={6} xs={12}>
+              <NextLink href={`/visit/${visit._id}`} passHref> 
+              <Grid 
+               item key={visit._id} lg={4} md={6} xs={12}>
                 <VisitCard visit={visit} />
               </Grid>
+              </NextLink>
             ))}
           </Grid>
         </Box>

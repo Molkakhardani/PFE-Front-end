@@ -11,7 +11,7 @@ export const VisitsStats = (props) => {
     datasets: [
       {
         data: [63, 15, 22],
-        backgroundColor: ["#3f51b5", "#2196f3", "#ff9800"],
+        backgroundColor: ["#03a9f4", "#26a69a", "#ff9800"],
         borderWidth: 8,
         borderColor: "#FFFFFF",
         hoverBorderColor: "#FFFFFF",
@@ -47,13 +47,13 @@ export const VisitsStats = (props) => {
       title: "Visites cloturées",
       value: 63,
       icon: CheckIcon,
-      color: "#3f51b5",
+      color: "#03a9f4",
     },
     {
       title: "Visites en cours",
       value: 15,
       icon: TourIcon,
-      color: "#2196f3",
+      color: "#26a69a",
     },
     {
       title: "Visites plannifiées",

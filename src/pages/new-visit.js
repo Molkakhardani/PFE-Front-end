@@ -163,6 +163,22 @@ const NewVisit = ({ createVisit }) => {
             timeFormat="HH:mm"
             dateFormat="MM/dd/yyyy"
           />
+          <FormControl fullWidth style={{ margin: "20px 0" }}>
+          <InputLabel id="demo-simple-select-label">status</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            onChange={handleChange}
+            
+            name="status"
+            variant="outlined"
+          >
+            <MenuItem value={"0"}>Cloturé</MenuItem>
+            <MenuItem value={"1"}>en cours</MenuItem>
+            <MenuItem value={"2"}>plannifié</MenuItem>
+            
+          </Select>
+        </FormControl>
         </div>
         <Box sx={{ py: 2 }}>
           <Button

@@ -71,3 +71,41 @@ export const loadVisits = () => {
       });
   };
 };
+export const deleteAccountVisit = (visitId, router) => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.DELETE_VISIT_START });
+    axios
+      .delete(`http://localhost:5000/api/admin/delete-visit/${visitId}`)
+      .then(({ data }) => {
+        dispatch({ type: actionTypes.DELETE_VISIT_SUCCESS, visitId });
+        router.push("/visits");
+      })
+      .catch((err) => {
+        dispatch({
+          type: actionTypes.DELETE_VISIT_FAIL,
+          errors: err.response.data,
+        });
+        console.log(err);
+      });
+  };
+};
+export const updatedAccountVisit = (visitId, status, router) => {
+  const statusData = { visitId, status };
+
+  return (dispatch) => {
+    dispatch({ type: actionTypes.UPDATE_ACCOUNT_VISIT_START });
+    axios
+      .post(`http://localhost:5000/api/admin/account-visit`, statusData)
+      .then(({ data }) => {
+        dispatch({ type: actionTypes.UPDATE_ACCOUNT_VISIT_SUCCESS });
+        router.push("/visits");
+      })
+      .catch((err) => {
+        dispatch({
+          type: actionTypes.UPDATE_ACCOUNT_VISIT_FAIL,
+          errors: err.response.data,
+        });
+        console.log(err);
+      });
+  };
+};

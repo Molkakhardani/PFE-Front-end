@@ -51,7 +51,6 @@ const Dashboard = ({ users = [], visits = [], loadUsers, loadVisits }) => {
     </>
   );
 };
-
 Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 const mapStateToProps = ({ users, visits }) => ({
