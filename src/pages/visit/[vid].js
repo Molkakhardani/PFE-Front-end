@@ -6,7 +6,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { VisitAccount } from "src/components/account/visit-account";
 
-const VisitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
+const VisitProfile = ({ visits, deleteAccountVisit, updateVisitHandler }) => {
   const router = useRouter();
   const { vid } = router.query;
   const currentVisit = visits.find((visit) => visit._id === vid) || {};
@@ -29,9 +29,7 @@ const VisitProfile = ({ visits, deleteAccountVisit, updatedAccountVisit }) => {
               <VisitAccount
                 visitProfile={currentVisit}
                 onDeleteVisit={(id) => deleteAccountVisit(id, router)}
-                updateAccountVisit={(id, updatedStatus) =>
-                  updatedAccountVisit(id, updatedStatus, router)
-                }
+                updateAccountVisit={(updatedData) => updateVisitHandler(updatedData, router)}
               />
             </Grid>
           </Grid>
@@ -50,8 +48,7 @@ const mapStateToProps = ({ visits }) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteAccountVisit: (id, router) => dispatch(actions.deleteAccountVisit(id, router)),
-    updatedAccountVisit: (id, status, router) =>
-      dispatch(actions.updatedAccountVisit(id, status, router)),
+    updateVisitHandler: (updatedData, router) => dispatch(actions.updateVisit(updatedData, router)),
   };
 };
 

@@ -89,13 +89,11 @@ export const deleteAccountVisit = (visitId, router) => {
       });
   };
 };
-export const updatedAccountVisit = (visitId, status, router) => {
-  const statusData = { visitId, status };
-
+export const updateVisit = (updatedData, router) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.UPDATE_ACCOUNT_VISIT_START });
     axios
-      .post(`http://localhost:5000/api/admin/account-visit`, statusData)
+      .post(`http://localhost:5000/api/admin/update-visit`, updatedData)
       .then(({ data }) => {
         dispatch({ type: actionTypes.UPDATE_ACCOUNT_VISIT_SUCCESS });
         router.push("/visits");

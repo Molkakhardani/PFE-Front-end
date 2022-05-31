@@ -90,6 +90,7 @@ export const VisitAccount = (props) => {
       date: startDate,
       _id,
     };
+    updateAccountVisit(updatedVisitData);
   };
 
   return (
