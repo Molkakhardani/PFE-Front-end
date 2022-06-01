@@ -67,7 +67,7 @@ const items = [
     allowed: ["admin", "user"],
   },
   {
-    href: "/message",
+    href: "/messages",
     icon: <MessageIcon fontSize="small" />,
     title: "Messages",
     allowed: ["admin", "user"],

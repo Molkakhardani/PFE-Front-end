@@ -80,3 +80,14 @@ export const newVisitSchema = {
     presence: { allowEmpty: false, message: "est obligatoire" },
   },
 };
+
+export const signInSchema = {
+  email: {
+    presence: { allowEmpty: false, message: "est obligatoire" },
+    email: true,
+  },
+
+  password: {
+    presence: { allowEmpty: false, message: "est obligatoire" },
+  },
+};

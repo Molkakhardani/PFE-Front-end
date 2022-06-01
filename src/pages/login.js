@@ -1,33 +1,67 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
+import { signInSchema } from "../utils/schema";
+import validate from "validate.js";
+
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
 
-const Login = () => {
+const Login = ({ errorsAuth, loginUser }) => {
   const router = useRouter();
-  const formik = useFormik({
-    initialValues: {
-      email: "demo@devias.io",
-      password: "Password123",
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-      password: Yup.string().max(255).required("Password is required"),
-    }),
-    onSubmit: () => {
-      router.push("/");
-    },
+  const [authState, setAuthState] = useState({});
+  const [formState, setFormState] = useState({
+    isValid: false,
+    values: {},
+    touched: {},
+    errors: {},
   });
+
+  useEffect(() => {
+    const errors = validate(formState.values, signInSchema);
+
+    setFormState((formState) => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {},
+    }));
+  }, [formState.values]);
+
+  useEffect(() => {
+    setAuthState(errorsAuth);
+  }, [errorsAuth]);
+
+  const handleChange = (event) => {
+    if (event.persist) {
+      event.persist();
+    }
+    setFormState((formState) => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]: event.target.value,
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true,
+      },
+    }));
+  };
+
+  const handleSignIn = () => {
+    console.log();
+    loginUser(formState.values, router);
+  };
+
+  const hasError = (field) => (formState.touched[field] && formState.errors[field] ? true : false);
 
   return (
     <>
       <Head>
-        <title>Login | Material Kit</title>
+        <title>iShare Sign in</title>
       </Head>
       <Box
         component="main"
@@ -44,109 +78,85 @@ const Login = () => {
               Dashboard
             </Button>
           </NextLink>
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Sign in
-              </Typography>
-              <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
-              </Typography>
-            </Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Button
-                  color="info"
-                  fullWidth
-                  startIcon={<FacebookIcon />}
-                  onClick={formik.handleSubmit}
-                  size="large"
-                  variant="contained"
-                >
-                  Login with Facebook
-                </Button>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Button
-                  fullWidth
-                  color="error"
-                  startIcon={<GoogleIcon />}
-                  onClick={formik.handleSubmit}
-                  size="large"
-                  variant="contained"
-                >
-                  Login with Google
-                </Button>
-              </Grid>
-            </Grid>
-            <Box
-              sx={{
-                pb: 1,
-                pt: 3,
-              }}
-            >
-              <Typography align="center" color="textSecondary" variant="body1">
-                or login with email address
-              </Typography>
-            </Box>
-            <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            />
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Sign In Now
-              </Button>
-            </Box>
-            <Typography color="textSecondary" variant="body2">
-              Don&apos;t have an account?{" "}
-              <NextLink href="/new-account">
-                <Link
-                  to="/new-account"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </NextLink>
+
+          <Box sx={{ my: 3 }}>
+            <Typography color="textPrimary" variant="h4" style={{ textAlign: "center" }}>
+              Sign in
             </Typography>
-          </form>
+          </Box>
+
+          <TextField
+            fullWidth
+            label="Email"
+            margin="normal"
+            name="email"
+            type="email"
+            error={hasError("email")}
+            helperText={hasError("email") ? formState.errors.email[0] : null}
+            variant="outlined"
+            onChange={handleChange}
+          />
+          {authState?.email && (
+            <Typography
+              component="p"
+              color="error"
+              style={{ padding: "0px 12px", fontSize: "15px" }}
+            >
+              {authState?.email}
+            </Typography>
+          )}
+          <TextField
+            fullWidth
+            label="Mot de passe"
+            margin="normal"
+            name="password"
+            type="password"
+            error={hasError("password")}
+            helperText={hasError("password") ? formState.errors.password[0] : null}
+            variant="outlined"
+            onChange={handleChange}
+          />
+          {authState?.password && (
+            <Typography
+              component="p"
+              color="error"
+              style={{ padding: "0px 12px", fontSize: "15px" }}
+            >
+              {authState?.password}
+            </Typography>
+          )}
+          <Box sx={{ py: 2 }}>
+            <Button
+              color="primary"
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              onClick={handleSignIn}
+              disabled={!formState.isValid}
+            >
+              SE CONNECTER
+            </Button>
+          </Box>
+          <Typography color="textSecondary" variant="body2">
+            Vous Avez pas un compte? contacter l&apos;administrateur
+          </Typography>
         </Container>
       </Box>
     </>
   );
 };
 
-export default Login;
+const mapStateToProps = ({ auth }) => {
+  return {
+    errorsAuth: auth?.errors,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (authData, history) => dispatch(actions.auth(authData, history)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

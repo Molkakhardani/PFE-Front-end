@@ -5,7 +5,6 @@ import validate from "validate.js";
 import DatePicker from "react-datepicker";
 import Head from "next/head";
 import NextLink from "next/link";
-import { connect } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import {
