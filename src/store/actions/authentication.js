@@ -72,13 +72,7 @@ export const auth = (authData, history) => {
         localStorage.setItem("jwtToken", token);
         dispatch(AuthSuccess(decoded, token));
         dispatch(checkAuthTimeout(expirationTime));
-        /* history.push(
-          decoded.post === "Administrateur"
-            ? "/users"
-            : decoded.post === `Directeur d'agence`
-            ? "/dashboard"
-            : "/report"
-        ); */
+        history.push("/");
       })
       .catch((err) => {
         dispatch(AuthFail(err));

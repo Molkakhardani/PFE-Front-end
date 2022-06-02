@@ -15,6 +15,7 @@ import { UserAdd as UserAddIcon } from "../icons/user-add";
 import { Users as UsersIcon } from "../icons/users";
 import MessageIcon from "@mui/icons-material/Message";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 const role = "admin";
@@ -61,12 +62,6 @@ const items = [
     allowed: ["admin", "user"],
   },
   {
-    href: "/login",
-    icon: <LockIcon fontSize="small" />,
-    title: "Login",
-    allowed: ["admin", "user"],
-  },
-  {
     href: "/messages",
     icon: <MessageIcon fontSize="small" />,
     title: "Messages",
@@ -76,6 +71,12 @@ const items = [
     href: "/partage",
     icon: <UploadFileIcon fontSize="small" />,
     title: "Documents",
+    allowed: ["admin", "user"],
+  },
+  {
+    href: "/logout",
+    icon: <LogoutIcon fontSize="small" />,
+    title: "Se déconnecter",
     allowed: ["admin", "user"],
   },
 ];

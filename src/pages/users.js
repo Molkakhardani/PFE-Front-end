@@ -6,6 +6,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { UsersList } from "../components/customer/users-list";
 import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
+
 import { customers } from "../__mocks__/customers";
 
 const Customers = ({ loadUsers, users = [] }) => {
@@ -40,7 +41,7 @@ const Customers = ({ loadUsers, users = [] }) => {
           </>
         ) : (
           <Typography sx={{ m: 1 }} variant="h6">
-            Vous n'avez pas encore créer des comptes utilisateurs
+            Vous n&apos;avez pas encore créer des comptes utilisateurs
           </Typography>
         )}
       </Container>
