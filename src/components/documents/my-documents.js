@@ -3,16 +3,16 @@ import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
-import { MessagesList } from "../../components/messages/messages-list";
+import { DocumentsList } from "../../components/documents/documents-list";
 import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
-import { messages } from "../../__mocks__/messages";
+import { documents } from "../../__mocks__/documents";
 import { DashboardLayout } from "../../components/dashboard-layout";
-import { MessagesToolbar } from "../../components/messages/messages-toolbar";
+import { DocumentsToolbar } from "../../components/documents/documents-toolbar";
 import { TotalMessages } from "../../components/messages/total-messages";
 
-const Messages = ({ loadUsers, users = [] }) => {
+const MyDocuments = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
-  console.log({ MessagesList, CustomerListToolbar });
+
   return (
     <Box
       component="main"
@@ -30,13 +30,18 @@ const Messages = ({ loadUsers, users = [] }) => {
             <TotalMessages count={10} title="MESSAGE ENVOYES" />
           </Grid>
         </Grid>
-        {messages.length > 0 ? (
+        {documents.length > 0 ? (
           <>
-            <MessagesToolbar onSearchHandler={(val) => setSearchValue(val)} />
+            <DocumentsToolbar
+              onSearchHandler={(val) => setSearchValue(val)}
+              title="Mes documents"
+              withButton
+            />
+
             <Box sx={{ mt: 3 }}>
-              <MessagesList
-                messages={messages.filter(({ subject, sender }) =>
-                  [subject.toLowerCase(), sender.toLowerCase()].some((value) =>
+              <DocumentsList
+                documents={documents.filter(({ title, owner }) =>
+                  [title.toLowerCase(), owner.toLowerCase()].some((value) =>
                     value.includes(searchValue.toLowerCase())
                   )
                 )}
@@ -63,6 +68,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-Messages.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Messages);
+export default connect(mapStateToProps, mapDispatchToProps)(MyDocuments);

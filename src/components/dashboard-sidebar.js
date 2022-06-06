@@ -68,7 +68,7 @@ const items = [
     allowed: ["admin", "user"],
   },
   {
-    href: "/partage",
+    href: "/documents",
     icon: <UploadFileIcon fontSize="small" />,
     title: "Documents",
     allowed: ["admin", "user"],

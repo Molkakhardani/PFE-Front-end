@@ -16,14 +16,22 @@ import {
   Typography,
 } from "@mui/material";
 
-export const MessagesList = ({ messages, ...rest }) => {
+export const DocumentsList = ({ documents, ...rest }) => {
   return (
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>titre</TableCell>
+                <TableCell>propriétaire</TableCell>
+                <TableCell>Téléchargement</TableCell>
+                <TableCell>Date de partage</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
-              {messages.map(({ id, subject, read, createdAt, sender }) => (
+              {documents.map(({ id, title, owner, createdAt, downloads }) => (
                 <>
                   <TableRow
                     sx={{
@@ -31,19 +39,11 @@ export const MessagesList = ({ messages, ...rest }) => {
                         cursor: "pointer",
                       },
                     }}
-                    style={{
-                      backgroundColor: read ? "#e9e9e9" : "white",
-                    }}
                   >
-                    <TableCell style={{ fontWeight: read ? "normal" : "bold", width: "20%" }}>
-                      {sender}
-                    </TableCell>
-                    <TableCell style={{ fontWeight: read ? "normal" : "bold", width: "50%" }}>
-                      {subject}
-                    </TableCell>
-                    <TableCell style={{ fontWeight: read ? "normal" : "bold", width: "20%" }}>
-                      {format(new Date(createdAt), "dd/MM/yyyy")}
-                    </TableCell>
+                    <TableCell>{title}</TableCell>
+                    <TableCell>{owner}</TableCell>
+                    <TableCell>{downloads}</TableCell>
+                    <TableCell>{format(new Date(createdAt), "dd/MM/yyyy")}</TableCell>
                   </TableRow>
                 </>
               ))}
