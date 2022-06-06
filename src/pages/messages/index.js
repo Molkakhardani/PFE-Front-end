@@ -3,18 +3,15 @@ import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
-import { UsersList } from "../../components/customer/users-list";
+import { MessageList } from "../../components/messages/messages-list";
 import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
-import { customers } from "../../__mocks__/customers";
+import { messages } from "../../__mocks__/messages";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { MessagesToolbar } from "../../components/messages/messages-toolbar";
 import { TotalMessages } from "../../components/messages/total-messages";
 
 const Messages = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
-  useEffect(() => {
-    loadUsers();
-  }, []);
 
   return (
     <Box
@@ -33,18 +30,16 @@ const Messages = ({ loadUsers, users = [] }) => {
             <TotalMessages count={10} title="MESSAGE ENVOYES" />
           </Grid>
         </Grid>
-        {users.length > 0 ? (
+        {messages.length > 0 ? (
           <>
             <MessagesToolbar />
             {/*             <CustomerListToolbar onSearchHandler={(val) => setSearchValue(val)} /> */}
             <Box sx={{ mt: 3 }}>
-              <UsersList
-                users={users.filter((user) =>
-                  [
-                    user.firstName.toLowerCase(),
-                    user.lastName.toLowerCase(),
-                    user.email.toLowerCase(),
-                  ].some((value) => value.includes(searchValue.toLowerCase()))
+              <MessageList
+                messages={messages.filter(({ subject, sender }) =>
+                  [subject.toLowerCase(), sender.toLowerCase()].some((value) =>
+                    value.includes(searchValue.toLowerCase())
+                  )
                 )}
               />
             </Box>

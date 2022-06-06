@@ -7,8 +7,6 @@ import { UsersList } from "../components/customer/users-list";
 import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
 
-import { customers } from "../__mocks__/customers";
-
 const Customers = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
