@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { DashboardLayout } from "../components/dashboard-layout";
+import DashboardLayout from "../components/dashboard-layout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const NewVisit = ({ createVisit }) => {

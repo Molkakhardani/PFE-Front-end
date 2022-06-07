@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Head from "next/head";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { AccountProfileDetails } from "../../components/account/account-profile-details";
-import { DashboardLayout } from "../../components/dashboard-layout";
+import { AccountProfileDetailsAdmin } from "../../components/account/account-profile-details-admin";
+import DashboardLayout from "../../components/dashboard-layout";
 
 const userProfile = ({ users, deleteAccount, updatedAccountStatus }) => {
   const router = useRouter();
@@ -26,9 +26,8 @@ const userProfile = ({ users, deleteAccount, updatedAccountStatus }) => {
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item lg={12} md={12} xs={12}>
-              <AccountProfileDetails
+              <AccountProfileDetailsAdmin
                 userProfile={currentUser}
-                adminview
                 onDeleteUser={(id) => deleteAccount(id, router)}
                 updateAccountStatus={(id, updatedStatus) =>
                   updatedAccountStatus(id, updatedStatus, router)

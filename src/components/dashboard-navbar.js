@@ -1,11 +1,20 @@
-import PropTypes from "prop-types";
+import { useState } from "react";
+import NextLink from "next/link";
 import styled from "@emotion/styled";
-import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import { Bell as BellIcon } from "../icons/bell";
-import { UserCircle as UserCircleIcon } from "../icons/user-circle";
-import { Users as UsersIcon } from "../icons/users";
+import EmailIcon from "@mui/icons-material/Email";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -13,7 +22,17 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 export const DashboardNavbar = (props) => {
-  const { onSidebarOpen, ...other } = props;
+  const { onSidebarOpen, authenticateduser, ...other } = props;
+  const { firstName, lastName, email, imageUrl } = authenticateduser || {};
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -48,34 +67,45 @@ export const DashboardNavbar = (props) => {
             <MenuIcon fontSize="small" />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Contacts">
-            <IconButton sx={{ ml: 1 }}>
-              <UsersIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Notifications">
-            <IconButton sx={{ ml: 1 }}>
-              <Badge badgeContent={4} color="primary" variant="dot">
-                <BellIcon fontSize="small" />
-              </Badge>
-            </IconButton>
-          </Tooltip>
           <Avatar
             sx={{
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               ml: 1,
             }}
-            src="/static/images/avatars/avatar_1.png"
+            src={imageUrl}
+            onClick={handleClick}
+          />
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
           >
-            <UserCircleIcon fontSize="small" />
-          </Avatar>
+            <MenuItem onClick={handleClose}>
+              Bienvenue &nbsp;
+              <b>
+                {lastName} {firstName}
+              </b>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <EmailIcon fontSize="small" /> <p style={{ marginLeft: "10px" }}>{email}</p>
+            </MenuItem>
+            <NextLink href="/logout">
+              <MenuItem onClick={handleClose}>
+                <>
+                  <LogoutIcon fontSize="small" />{" "}
+                  <p style={{ marginLeft: "10px" }}>Se déconnecter</p>
+                </>
+              </MenuItem>
+            </NextLink>
+          </Menu>
         </Toolbar>
       </DashboardNavbarRoot>
     </>
   );
-};
-
-DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func,
 };

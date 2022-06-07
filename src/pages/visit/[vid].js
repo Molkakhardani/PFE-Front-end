@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Head from "next/head";
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { DashboardLayout } from "../../components/dashboard-layout";
+import DashboardLayout from "../../components/dashboard-layout";
 import { VisitAccount } from "src/components/account/visit-account";
 
 const VisitProfile = ({ visits, deleteAccountVisit, updateVisitHandler }) => {

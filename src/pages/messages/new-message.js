@@ -23,7 +23,7 @@ import {
   Switch,
 } from "@mui/material";
 
-import { DashboardLayout } from "../../components/dashboard-layout";
+import DashboardLayout from "../../components/dashboard-layout";
 import { MessageDestination } from "../../components/messages/message-destination";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 

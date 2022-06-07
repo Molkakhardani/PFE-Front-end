@@ -4,15 +4,15 @@ import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import { MessagesList } from "../../components/messages/messages-list";
-import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
+import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
 import { messages } from "../../__mocks__/messages";
-import { DashboardLayout } from "../../components/dashboard-layout";
+import DashboardLayout from "../../components/dashboard-layout";
 import { MessagesToolbar } from "../../components/messages/messages-toolbar";
 import { TotalMessages } from "../../components/messages/total-messages";
 
 const Messages = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
-  console.log({ MessagesList, CustomerListToolbar });
+
   return (
     <Box
       component="main"

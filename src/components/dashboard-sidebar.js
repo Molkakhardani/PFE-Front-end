@@ -18,71 +18,69 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-const role = "admin";
 
-const filterItemsHandler = (itemsList, role) => {
-  return itemsList.filter((item) => item.allowed.includes(role));
-};
+const filterItemsHandler = (itemsList, role) =>
+  itemsList.filter(({ allowed }) => allowed.includes(role));
 
 const items = [
   {
     href: "/",
     icon: <ChartBarIcon fontSize="small" />,
     title: "Dashboard",
-    allowed: ["admin"],
+    allowed: [1],
   },
   {
     href: "/new-account",
     icon: <UserAddIcon fontSize="small" />,
     title: "Création de compte",
-    allowed: ["admin"],
+    allowed: [1],
   },
   {
     href: "/users",
     icon: <UsersIcon fontSize="small" />,
     title: "Utilisateurs",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
   {
     href: "/visits",
     icon: <VisibilityIcon fontSize="small" />,
     title: "Visites",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
   {
     href: "/account",
     icon: <UserIcon fontSize="small" />,
-    title: " Mon compte",
-    allowed: ["admin", "user"],
+    title: "Mon compte",
+    allowed: [1, 0],
   },
   {
     href: "/settings",
     icon: <CogIcon fontSize="small" />,
     title: "Parametre",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
   {
     href: "/messages",
     icon: <MessageIcon fontSize="small" />,
     title: "Messages",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
   {
     href: "/documents",
     icon: <UploadFileIcon fontSize="small" />,
     title: "Documents",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
   {
     href: "/logout",
     icon: <LogoutIcon fontSize="small" />,
     title: "Se déconnecter",
-    allowed: ["admin", "user"],
+    allowed: [1, 0],
   },
 ];
 
 export const DashboardSidebar = (props) => {
-  const { open, onClose } = props;
+  const { open, onClose, account } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -133,7 +131,7 @@ export const DashboardSidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {filterItemsHandler(items, role).map((item) => (
+          {filterItemsHandler(items, account).map((item) => (
             <NavItem key={item.title} icon={item.icon} href={item.href} title={item.title} />
           ))}
         </Box>
@@ -179,9 +177,4 @@ export const DashboardSidebar = (props) => {
       {content}
     </Drawer>
   );
-};
-
-DashboardSidebar.propTypes = {
-  onClose: PropTypes.func,
-  open: PropTypes.bool,
 };

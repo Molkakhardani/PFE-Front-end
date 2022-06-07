@@ -22,7 +22,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-import { DashboardLayout } from "../components/dashboard-layout";
+import DashboardLayout from "../components/dashboard-layout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Register = ({ createUser, errors }) => {

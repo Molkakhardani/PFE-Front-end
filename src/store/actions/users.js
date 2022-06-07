@@ -100,6 +100,8 @@ const loadUsersFail = (errors) => {
 
 export const loadUsers = () => {
   return (dispatch) => {
+    const token = localStorage.getItem("jwtToken");
+    setAuthToken(token);
     dispatch(loadUsersStart());
     axios
       .get("http://localhost:5000/api/user/users")

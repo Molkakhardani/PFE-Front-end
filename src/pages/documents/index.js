@@ -6,7 +6,7 @@ import { Box, Tabs, Tab, Typography } from "@mui/material";
 import MyDocuments from "../../components/documents/my-documents";
 import AllDocuments from "../../components/documents/all-documents";
 
-import { DashboardLayout } from "../../components/dashboard-layout";
+import DashboardLayout from "../../components/dashboard-layout";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

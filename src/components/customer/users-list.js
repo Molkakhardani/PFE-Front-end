@@ -19,7 +19,7 @@ import {
 import { SeverityPill } from "../severity-pill";
 import { getInitials } from "../../utils/get-initials";
 
-export const UsersList = ({ users, ...rest }) => {
+export const UsersList = ({ users, isAdmin, ...rest }) => {
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -30,8 +30,12 @@ export const UsersList = ({ users, ...rest }) => {
                 <TableCell>Nom</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Télephone</TableCell>
-                <TableCell>Date de création</TableCell>
-                <TableCell>Status</TableCell>
+                {isAdmin && (
+                  <>
+                    <TableCell>Date de création</TableCell>
+                    <TableCell>Status</TableCell>
+                  </>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -56,12 +60,16 @@ export const UsersList = ({ users, ...rest }) => {
                       </TableCell>
                       <TableCell>{email}</TableCell>
                       <TableCell>{phoneNumber}</TableCell>
-                      <TableCell>{format(new Date(date), "dd/MM/yyyy")}</TableCell>
-                      <TableCell>
-                        <SeverityPill color={active ? "success" : "error"}>
-                          {active ? "Activé" : "Bloqué"}
-                        </SeverityPill>
-                      </TableCell>
+                      {isAdmin && (
+                        <>
+                          <TableCell>{format(new Date(date), "dd/MM/yyyy")}</TableCell>
+                          <TableCell>
+                            <SeverityPill color={active ? "success" : "error"}>
+                              {active ? "Activé" : "Bloqué"}
+                            </SeverityPill>
+                          </TableCell>
+                        </>
+                      )}
                     </TableRow>
                   </Link>
                 )

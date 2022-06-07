@@ -4,10 +4,10 @@ import * as actions from "../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography } from "@mui/material";
 import { UsersList } from "../components/customer/users-list";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
-import { DashboardLayout } from "../components/dashboard-layout";
+import { UsersListToolbar } from "../components/customer/users-list-toolbar";
+import DashboardLayout from "../components/dashboard-layout";
 
-const Customers = ({ loadUsers, users = [] }) => {
+const Customers = ({ loadUsers, users = [], authenticatedUser }) => {
   const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     loadUsers();
@@ -24,7 +24,10 @@ const Customers = ({ loadUsers, users = [] }) => {
       <Container maxWidth={false}>
         {users.length > 0 ? (
           <>
-            <CustomerListToolbar onSearchHandler={(val) => setSearchValue(val)} />
+            <UsersListToolbar
+              onSearchHandler={(val) => setSearchValue(val)}
+              isAdmin={+authenticatedUser.account === 1}
+            />
             <Box sx={{ mt: 3 }}>
               <UsersList
                 users={users.filter((user) =>
@@ -34,6 +37,7 @@ const Customers = ({ loadUsers, users = [] }) => {
                     user.email.toLowerCase(),
                   ].some((value) => value.includes(searchValue.toLowerCase()))
                 )}
+                isAdmin={+authenticatedUser.account === 1}
               />
             </Box>
           </>
@@ -49,8 +53,9 @@ const Customers = ({ loadUsers, users = [] }) => {
 
 Customers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-const mapStateToProps = ({ users }) => ({
+const mapStateToProps = ({ users, auth = {} }) => ({
   users: users.users,
+  authenticatedUser: auth.user,
 });
 
 const mapDispatchToProps = (dispatch) => {

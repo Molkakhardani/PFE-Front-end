@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Head from "next/head";
 import { Box, Container, Grid, Pagination } from "@mui/material";
 import { VisitCard } from "../components/visit/visit-card";
-import { DashboardLayout } from "../components/dashboard-layout";
+import DashboardLayout from "../components/dashboard-layout";
 import { ProductListToolbar } from "../components/visit/product-list-toolbar";
 import NextLink from "next/link";
 const Visits = ({ visits, loadVisits }) => {

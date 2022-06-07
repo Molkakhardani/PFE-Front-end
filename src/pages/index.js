@@ -12,7 +12,7 @@ import { TotalUsers } from "../components/dashboard/total-users";
 import { TotalProfit } from "../components/dashboard/total-profit";
 import { UsersStats } from "../components/dashboard/users-stats";
 import { VisitsStats } from "../components/dashboard/visits-stats";
-import { DashboardLayout } from "../components/dashboard-layout";
+import DashboardLayout from "../components/dashboard-layout";
 
 const Dashboard = ({ users = [], visits = [], loadUsers, loadVisits }) => {
   useEffect(() => {

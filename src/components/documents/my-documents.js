@@ -6,7 +6,7 @@ import { Box, Container, Typography, Grid } from "@mui/material";
 import { DocumentsList } from "../../components/documents/documents-list";
 import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
 import { documents } from "../../__mocks__/documents";
-import { DashboardLayout } from "../../components/dashboard-layout";
+import DashboardLayout from "../../components/dashboard-layout";
 import { DocumentsToolbar } from "../../components/documents/documents-toolbar";
 import { TotalMessages } from "../../components/messages/total-messages";
 

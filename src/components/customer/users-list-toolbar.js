@@ -13,7 +13,7 @@ import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 
-export const CustomerListToolbar = (props) => (
+export const UsersListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -27,13 +27,15 @@ export const CustomerListToolbar = (props) => (
       <Typography sx={{ m: 1 }} variant="h4">
         Utilisateurs
       </Typography>
-      <Box sx={{ m: 1 }}>
-        <NextLink href="/new-account" passHref>
-          <Button color="primary" variant="contained">
-            Créer un nouveau utilisateur
-          </Button>
-        </NextLink>
-      </Box>
+      {props.isAdmin && (
+        <Box sx={{ m: 1 }}>
+          <NextLink href="/new-account" passHref>
+            <Button color="primary" variant="contained">
+              Créer un nouveau utilisateur
+            </Button>
+          </NextLink>
+        </Box>
+      )}
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>
