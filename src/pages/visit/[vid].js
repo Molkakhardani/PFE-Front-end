@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import getById from "../../services/getById";
+import { getById } from "../../services";
 import * as actions from "../../store/actions";
 import Head from "next/head";
 import { Box, Container, Grid, Typography } from "@mui/material";

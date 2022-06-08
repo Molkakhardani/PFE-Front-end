@@ -40,7 +40,6 @@ const AccountProfileDetails = ({ authenticatedUser, updateProfile }) => {
   };
 
   const updateProfileHandler = () => {
-    console.log("update");
     updateProfile(values);
   };
 

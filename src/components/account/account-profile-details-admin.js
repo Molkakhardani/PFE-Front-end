@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import getById from "../../services/getById";
+import { getById } from "../../services";
 import {
   Box,
   Button,
