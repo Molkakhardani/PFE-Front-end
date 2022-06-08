@@ -25,7 +25,7 @@ export const MessagesToolbar = (props) => (
       }}
     >
       <Typography sx={{ m: 1 }} variant="h4">
-        Messages
+        {props.title}
       </Typography>
       <Box sx={{ m: 1 }}>
         <NextLink href="/messages/new-message" passHref>

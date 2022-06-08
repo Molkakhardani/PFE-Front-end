@@ -48,18 +48,6 @@ const items = [
     allowed: [1, 0],
   },
   {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Mon compte",
-    allowed: [1, 0],
-  },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Parametre",
-    allowed: [1, 0],
-  },
-  {
     href: "/messages",
     icon: <MessageIcon fontSize="small" />,
     title: "Messages",
@@ -69,6 +57,18 @@ const items = [
     href: "/documents",
     icon: <UploadFileIcon fontSize="small" />,
     title: "Documents",
+    allowed: [1, 0],
+  },
+  {
+    href: "/account",
+    icon: <UserIcon fontSize="small" />,
+    title: "Mon compte",
+    allowed: [1, 0],
+  },
+  {
+    href: "/settings",
+    icon: <CogIcon fontSize="small" />,
+    title: "Parametre",
     allowed: [1, 0],
   },
   {

@@ -3,14 +3,13 @@ import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
-import { DocumentsList } from "../../components/documents/documents-list";
+import { MessagesList } from "../../components/messages/messages-list";
 import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
-import { documents } from "../../__mocks__/documents";
+import { messages } from "../../__mocks__/messages";
 import DashboardLayout from "../../components/dashboard-layout";
-import { DocumentsToolbar } from "../../components/documents/documents-toolbar";
-import { TotalMessages } from "../../components/messages/total-messages";
+import { MessagesToolbar } from "../../components/messages/messages-toolbar";
 
-const MyDocuments = ({ loadUsers, users = [] }) => {
+const MessagesReceived = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
 
   return (
@@ -22,18 +21,16 @@ const MyDocuments = ({ loadUsers, users = [] }) => {
       }}
     >
       <Container maxWidth={false}>
-        {documents.length > 0 ? (
+        {messages.length > 0 ? (
           <>
-            <DocumentsToolbar
+            <MessagesToolbar
               onSearchHandler={(val) => setSearchValue(val)}
-              title={`Mes documents (${documents.length})`}
-              withButton
+              title={`Messages reçus (${messages.length})`}
             />
-
             <Box sx={{ mt: 3 }}>
-              <DocumentsList
-                documents={documents.filter(({ title, owner }) =>
-                  [title.toLowerCase(), owner.toLowerCase()].some((value) =>
+              <MessagesList
+                messages={messages.filter(({ subject, sender }) =>
+                  [subject.toLowerCase(), sender.toLowerCase()].some((value) =>
                     value.includes(searchValue.toLowerCase())
                   )
                 )}
@@ -60,4 +57,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyDocuments);
+MessagesReceived.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagesReceived);

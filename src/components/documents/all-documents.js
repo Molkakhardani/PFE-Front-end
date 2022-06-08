@@ -26,7 +26,7 @@ const AllDocuments = ({ loadUsers, users = [] }) => {
           <>
             <DocumentsToolbar
               onSearchHandler={(val) => setSearchValue(val)}
-              title="Les documents partagés"
+              title={`Les documents partagés (${documents.length})`}
             />
 
             <Box sx={{ mt: 3 }}>

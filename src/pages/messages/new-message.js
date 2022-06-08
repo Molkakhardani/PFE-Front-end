@@ -27,14 +27,20 @@ import DashboardLayout from "../../components/dashboard-layout";
 import { MessageDestination } from "../../components/messages/message-destination";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Register = ({ createUser, errors }) => {
+const Register = ({ loadUsers, users = {} }) => {
   const router = useRouter();
+  const { users: allUsers } = users;
+
   const [privateMessage, setPrivateMessage] = useState(true);
   const [destinations, setDestinations] = useState([]);
   const [formState, setFormState] = useState({
     subject: "",
     description: "",
   });
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
 
   const handleChange = (event) => {
     if (event.persist) {
@@ -69,7 +75,10 @@ const Register = ({ createUser, errors }) => {
         Message Privé:{" "}
         <Switch defaultChecked onChange={(e) => setPrivateMessage(e.target.checked)} />
         <div style={{ visibility: privateMessage ? "visible" : "hidden", height: "70px" }}>
-          <MessageDestination onChange={(destinations) => setDestinations(destinations)} />
+          <MessageDestination
+            onChange={(destinations) => setDestinations(destinations)}
+            data={allUsers}
+          />
         </div>
         <TextField
           fullWidth
@@ -107,13 +116,13 @@ const Register = ({ createUser, errors }) => {
   );
 };
 
-const mapStateToProps = ({ users }) => {
-  return users;
-};
+const mapStateToProps = ({ users }) => ({
+  users,
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (newUser, history) => dispatch(actions.createAccount(newUser, history)),
+    loadUsers: () => dispatch(actions.loadUsers()),
   };
 };
 
