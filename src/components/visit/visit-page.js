@@ -1,8 +1,4 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import getById from "../../services/getById";
 import moment from "moment";
-import validate from "validate.js";
 import DatePicker from "react-datepicker";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -31,31 +27,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import SaveIcon from "@mui/icons-material/Save";
 import { CleaningServices } from "@mui/icons-material";
 
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-];
-
-export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
-  const [currentVisit, setCurrentVisit] = useState(null);
-
-  useEffect(async () => {
-    if (visitid) {
-      const { visit } = await getById("visit", visitid);
-      setCurrentVisit(visit);
-    }
-  }, [visitid]);
-
+export const VisitPage = ({ visit, onDeleteVisit, updateAccountVisit }) => {
   const {
     _id,
     firstName,
@@ -67,49 +39,10 @@ export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
     description,
     creationDate,
     date,
-  } = currentVisit || {};
-  console.log({ currentVisit });
-  const [startDate, setStartDate] = useState(moment(date).toDate());
-
-  const [openModal, setOpenModal] = useState(false);
-  const [values, setValues] = useState({
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
-    status,
-    title,
-    description,
-    date,
-    status,
-  });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const updateVisitHandler = () => {
-    const updatedVisitData = {
-      ...values,
-      date: startDate,
-      _id,
-    };
-    updateAccountVisit(updatedVisitData);
-  };
+  } = visit || {};
 
   return (
     <>
-      <DeleteModal
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
-        handleAction={() => onDeleteVisit(_id)}
-        title="Supression de visite"
-        description="voulez-vous vraiment supprimer cette visite ?"
-      />
-
       <Box
         component="main"
         sx={{
@@ -159,7 +92,6 @@ export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
             fullWidth
             label="email"
             name="email"
-            onChange={handleChange}
             required
             margin="normal"
             value={email || ""}
@@ -208,21 +140,19 @@ export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
               Date:
             </Typography>
 
-            <DatePicker
-              selected={startDate || ""}
-              onChange={(date) => setStartDate(date)}
+            {/* <DatePicker
+              selected={date || ""}
               variant="outlined"
               showTimeSelect
               timeFormat="HH:mm"
               dateFormat="dd-MM-yyyy"
               disabled
-            />
+            /> */}
             <FormControl fullWidth style={{ margin: "20px 0" }}>
               <InputLabel id="demo-simple-select-label">status</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                onChange={handleChange}
                 value={status || 0}
                 name="status"
                 variant="outlined"
@@ -234,43 +164,6 @@ export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
               </Select>
             </FormControl>
           </div>
-          <Grid container justifyContent="flex-end" alignItems="center">
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                p: 2,
-              }}
-              item
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                onClick={updateVisitHandler}
-              >
-                Sauvegarder les modifications
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                p: 2,
-              }}
-              item
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                onClick={() => setOpenModal(true)}
-                style={{ backgroundColor: "red", color: "white" }}
-              >
-                Supprimer
-              </Button>
-            </Box>
-          </Grid>
         </Container>
       </Box>
     </>

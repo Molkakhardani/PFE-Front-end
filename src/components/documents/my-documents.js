@@ -4,7 +4,7 @@ import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import { DocumentsList } from "../../components/documents/documents-list";
-import { CustomerListToolbar } from "../../components/customer/customer-list-toolbar";
+import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
 import { documents } from "../../__mocks__/documents";
 import DashboardLayout from "../../components/dashboard-layout";
 import { DocumentsToolbar } from "../../components/documents/documents-toolbar";
