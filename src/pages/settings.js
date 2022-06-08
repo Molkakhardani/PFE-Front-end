@@ -17,10 +17,6 @@ const Settings = () => (
       }}
     >
       <Container maxWidth="lg">
-        <Typography sx={{ mb: 3 }} variant="h4">
-          Settings
-        </Typography>
-        <SettingsNotifications />
         <Box sx={{ pt: 3 }}>
           <SettingsPassword />
         </Box>

@@ -7,8 +7,11 @@ import { UsersList } from "../components/customer/users-list";
 import { UsersListToolbar } from "../components/customer/users-list-toolbar";
 import DashboardLayout from "../components/dashboard-layout";
 
-const Customers = ({ loadUsers, users = [], authenticatedUser }) => {
+const Customers = ({ loadUsers, users = [], authenticatedUser = {} }) => {
+  const { _id, account } = authenticatedUser;
+  const isAdmin = +account === 1;
   const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -24,10 +27,7 @@ const Customers = ({ loadUsers, users = [], authenticatedUser }) => {
       <Container maxWidth={false}>
         {users.length > 0 ? (
           <>
-            <UsersListToolbar
-              onSearchHandler={(val) => setSearchValue(val)}
-              isAdmin={+authenticatedUser.account === 1}
-            />
+            <UsersListToolbar onSearchHandler={(val) => setSearchValue(val)} isAdmin={isAdmin} />
             <Box sx={{ mt: 3 }}>
               <UsersList
                 users={users.filter((user) =>

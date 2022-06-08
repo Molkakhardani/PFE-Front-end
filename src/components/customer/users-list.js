@@ -41,8 +41,14 @@ export const UsersList = ({ users, isAdmin, ...rest }) => {
             <TableBody>
               {users.map(
                 ({ _id, lastName, firstName, email, imageUrl, phoneNumber, date, active }) => (
-                  <Link href={`/user/${_id}`} key={_id}>
-                    <TableRow hover>
+                  <Link key={_id} href={isAdmin ? `/user/${_id}` : ""}>
+                    <TableRow
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
                       <TableCell>
                         <Box
                           sx={{

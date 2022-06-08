@@ -25,8 +25,13 @@ import {
 import DashboardLayout from "../components/dashboard-layout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Register = ({ createUser, errors }) => {
+const NewAccount = ({ createUser, errors, isAdmin }) => {
   const router = useRouter();
+
+  if (!isAdmin) {
+    router.push("/users");
+  }
+
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -178,9 +183,10 @@ const Register = ({ createUser, errors }) => {
   );
 };
 
-const mapStateToProps = ({ users }) => {
-  return users;
-};
+const mapStateToProps = ({ users, auth }) => ({
+  users,
+  isAdmin: auth.isAdmin,
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -188,6 +194,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-Register.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+NewAccount.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAccount);

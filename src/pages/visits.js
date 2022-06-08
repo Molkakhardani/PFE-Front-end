@@ -7,7 +7,8 @@ import { VisitCard } from "../components/visit/visit-card";
 import DashboardLayout from "../components/dashboard-layout";
 import { ProductListToolbar } from "../components/visit/product-list-toolbar";
 import NextLink from "next/link";
-const Visits = ({ visits, loadVisits }) => {
+
+const Visits = ({ visits, loadVisits, isAdmin }) => {
   useEffect(() => {
     loadVisits();
   }, []);
@@ -21,7 +22,7 @@ const Visits = ({ visits, loadVisits }) => {
       }}
     >
       <Container maxWidth={false}>
-        <ProductListToolbar />
+        <ProductListToolbar isadmin={isAdmin} />
         <Box sx={{ pt: 3 }}>
           <Grid container spacing={3}>
             {visits.map((visit) => (
@@ -40,7 +41,8 @@ const Visits = ({ visits, loadVisits }) => {
 
 Visits.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-const mapStateToProps = ({ visits }) => ({
+const mapStateToProps = ({ visits, auth = {} }) => ({
+  isAdmin: auth.isAdmin,
   visits: visits.visits,
 });
 

@@ -23,7 +23,8 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, authenticateduser, ...other } = props;
-  const { firstName, lastName, email, imageUrl } = authenticateduser || {};
+  const { firstName, lastName, email, imageUrl, account } = authenticateduser || {};
+  const isAdmin = +account === 1;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -86,6 +87,9 @@ export const DashboardNavbar = (props) => {
               "aria-labelledby": "basic-button",
             }}
           >
+            <MenuItem onClick={handleClose}>
+              Compte &nbsp; <b>{isAdmin ? "Administrateur" : "utilisateur"}</b>
+            </MenuItem>
             <MenuItem onClick={handleClose}>
               Bienvenue &nbsp;
               <b>

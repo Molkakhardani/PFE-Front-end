@@ -27,13 +27,15 @@ export const ProductListToolbar = (props) => (
       <Typography sx={{ m: 1 }} variant="h4">
         Les Visites
       </Typography>
-      <NextLink href="/new-visit" passHref>
-        <Box sx={{ m: 1 }}>
-          <Button color="primary" variant="contained">
-            Ajouter une visite
-          </Button>
-        </Box>
-      </NextLink>
+      {props.isadmin && (
+        <NextLink href="/new-visit" passHref>
+          <Box sx={{ m: 1 }}>
+            <Button color="primary" variant="contained">
+              Ajouter une visite
+            </Button>
+          </Box>
+        </NextLink>
+      )}
     </Box>
   </Box>
 );

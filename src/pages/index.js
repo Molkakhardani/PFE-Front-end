@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import * as actions from "../store/actions";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { connect } from "react-redux";
 import { Box, Container, Grid } from "@mui/material";
@@ -14,11 +15,18 @@ import { UsersStats } from "../components/dashboard/users-stats";
 import { VisitsStats } from "../components/dashboard/visits-stats";
 import DashboardLayout from "../components/dashboard-layout";
 
-const Dashboard = ({ users = [], visits = [], loadUsers, loadVisits }) => {
+const Dashboard = ({ users = [], visits = [], loadUsers, loadVisits, isAdmin }) => {
+  const router = useRouter();
+
+  if (!isAdmin) {
+    router.push("/users");
+  }
+
   useEffect(() => {
     loadUsers();
     loadVisits();
   }, []);
+
   return (
     <>
       <Head>
@@ -53,9 +61,10 @@ const Dashboard = ({ users = [], visits = [], loadUsers, loadVisits }) => {
 };
 Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-const mapStateToProps = ({ users, visits }) => ({
+const mapStateToProps = ({ users, visits, auth }) => ({
   users: users.users,
   visits: visits.visits,
+  isAdmin: auth.isAdmin,
 });
 
 const mapDispatchToProps = (dispatch) => {

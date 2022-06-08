@@ -22,14 +22,6 @@ const MyDocuments = ({ loadUsers, users = [] }) => {
       }}
     >
       <Container maxWidth={false}>
-        <Grid container spacing={3}>
-          <Grid item xl={6} lg={6} sm={6} xs={12} margin="normal">
-            <TotalMessages count={5} title="BOITE DE RECEPTION" received />
-          </Grid>
-          <Grid item xl={6} lg={6} sm={6} xs={12} margin="normal">
-            <TotalMessages count={10} title="MESSAGE ENVOYES" />
-          </Grid>
-        </Grid>
         {documents.length > 0 ? (
           <>
             <DocumentsToolbar

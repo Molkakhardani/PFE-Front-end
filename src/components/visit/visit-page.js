@@ -1,8 +1,13 @@
 import moment from "moment";
+import localization from "moment/locale/fr";
+moment.locale("fr", localization);
+
 import DatePicker from "react-datepicker";
 import Head from "next/head";
 import NextLink from "next/link";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import { SeverityPill } from "../severity-pill";
 
 import {
   Box,
@@ -26,6 +31,29 @@ import DeleteModal from "../account/delete-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import SaveIcon from "@mui/icons-material/Save";
 import { CleaningServices } from "@mui/icons-material";
+
+const visitMapping = [
+  {
+    code: 2,
+    color: "warning",
+    wording: "plannifiée",
+  },
+  {
+    code: 1,
+    color: "success",
+    wording: "en cours",
+  },
+  {
+    code: 0,
+    color: "info",
+    wording: "cloturée",
+  },
+];
+
+const VisitStatus = (code) => {
+  const { color, wording } = visitMapping.find((visit) => visit.code === code) || {};
+  return <SeverityPill color={color}>{wording}</SeverityPill>;
+};
 
 export const VisitPage = ({ visit, onDeleteVisit, updateAccountVisit }) => {
   const {
@@ -137,32 +165,11 @@ export const VisitPage = ({ visit, onDeleteVisit, updateAccountVisit }) => {
           />
           <div>
             <Typography color="textPrimary" variant="h6">
-              Date:
+              Date: {moment(date).format("LLLL")}
             </Typography>
-
-            {/* <DatePicker
-              selected={date || ""}
-              variant="outlined"
-              showTimeSelect
-              timeFormat="HH:mm"
-              dateFormat="dd-MM-yyyy"
-              disabled
-            /> */}
-            <FormControl fullWidth style={{ margin: "20px 0" }}>
-              <InputLabel id="demo-simple-select-label">status</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={status || 0}
-                name="status"
-                variant="outlined"
-                disabled
-              >
-                <MenuItem value={0}>Cloturé</MenuItem>
-                <MenuItem value={1}>en cours</MenuItem>
-                <MenuItem value={2}>plannifié</MenuItem>
-              </Select>
-            </FormControl>
+            <Typography color="textPrimary" variant="h6">
+              Status actuel: {VisitStatus(status)}
+            </Typography>
           </div>
         </Container>
       </Box>

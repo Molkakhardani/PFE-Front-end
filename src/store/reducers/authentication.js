@@ -17,10 +17,13 @@ const AuthStart = (state, action) => {
   });
 };
 
-const AuthSuccess = (state, action) => {
+const AuthSuccess = (state, action = {}) => {
+  const { currentuser, token } = action;
+  const isAdmin = +currentuser?.account === 1;
   return updateObject(state, {
-    user: action.currentuser,
-    token: action.token,
+    user: currentuser,
+    token,
+    isAdmin,
     loading: false,
     error: null,
   });
