@@ -103,3 +103,31 @@ export const authCheckState = () => {
     }
   };
 };
+
+export const updateProfile = (updateInormation) => {
+  return (dispatch) => {
+    const token = localStorage.getItem("jwtToken");
+    setAuthToken(token);
+
+    dispatch(AuthStart());
+    axios
+      .post("http://localhost:5000/api/user/update-account", updateInormation)
+      .then((res) => {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("expirationDate");
+
+        const { token } = res.data;
+        const decoded = jwt_decode(token);
+        const expirationDate = new Date(decoded.exp * 1000);
+        const expirationTime = decoded.exp - decoded.iat;
+        localStorage.setItem("expirationDate", expirationDate);
+        localStorage.setItem("jwtToken", token);
+        dispatch(AuthSuccess(decoded, token));
+        dispatch(checkAuthTimeout(expirationTime));
+      })
+      .catch((err) => {
+        dispatch(AuthFail(err));
+        console.log(err);
+      });
+  };
+};

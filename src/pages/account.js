@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { AccountProfile } from "../components/account/account-profile";
-import { AccountProfileDetails } from "../components/account/account-profile-details";
+import AccountProfileDetails from "../components/account/account-profile-details";
 import DashboardLayout from "../components/dashboard-layout";
 
 const Account = () => (
@@ -18,7 +18,7 @@ const Account = () => (
     >
       <Container maxWidth="lg">
         <Typography sx={{ mb: 3 }} variant="h4">
-          Account
+          Mon Compte
         </Typography>
         <Grid container>
           <Grid item lg={12} md={12} xs={12}>

@@ -1,4 +1,13 @@
 import { useState } from "react";
+import { connect } from "react-redux";
+
+import * as actions from "../../store/actions";
+
+import moment from "moment";
+import localization from "moment/locale/fr";
+
+moment.locale("fr", localization);
+
 import {
   Box,
   Button,
@@ -9,40 +18,18 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import BlockIcon from "@mui/icons-material/Block";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import DeleteModal from "./delete-modal";
+import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
 
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-];
-
-export const AccountProfileDetails = (props) => {
-  const { userProfile, adminview = false, onDeleteUser, updateAccountStatus } = props;
-  const { _id, lastName, firstName, email, phoneNumber, post, date, active } = userProfile || {};
+const AccountProfileDetails = ({ authenticatedUser, updateProfile }) => {
+  const { _id, lastName, firstName, email, phoneNumber, post, date, active } =
+    authenticatedUser || {};
 
   const [openModal, setOpenModal] = useState(false);
   const [values, setValues] = useState({
     firstName,
     lastName,
-    email,
-    phone: phoneNumber,
-    post,
-    state: "Alabama",
-    country: "USA",
+    phoneNumber,
   });
 
   const handleChange = (event) => {
@@ -52,158 +39,102 @@ export const AccountProfileDetails = (props) => {
     });
   };
 
-  /*   const formattedDate = format(new Date(date), "dd/MM/yyyy"); */
-  const formattedDate = date;
-  const blockedAccount = !active;
+  const updateProfileHandler = () => {
+    console.log("update");
+    updateProfile(values);
+  };
+
   return (
-    <form autoComplete="off" noValidate {...props}>
-      <DeleteModal
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
-        handleAction={() => onDeleteUser(_id)}
-        title="Supression de compte"
-        description="voulez-vous vraiment supprimer ce compte ?"
+    <Card>
+      <CardHeader
+        subheader={`crée le ${moment(date).format("LLLL")}`}
+        title={`${firstName} ${lastName}`}
       />
-      <Card>
-        <CardHeader
-          subheader={!adminview ? "The information can be edited" : null}
-          title={`Le profile de ${firstName} ${lastName} / crée le ${date}`}
-        />
-        <Divider />
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
-                disabled={adminview}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-                disabled={adminview}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-                disabled={adminview}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-                disabled={adminview}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Post"
-                name="post"
-                onChange={handleChange}
-                required
-                value={values.post}
-                variant="outlined"
-                disabled={adminview}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-                disabled={adminview}
-              >
-                {states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
+      <Divider />
+      <CardContent>
+        <Grid container spacing={3}>
+          <Grid item md={6} xs={12}>
+            <TextField
+              fullWidth
+              label="Nom"
+              name="lastName"
+              onChange={handleChange}
+              required
+              value={values.lastName || ""}
+              variant="outlined"
+            />
           </Grid>
-        </CardContent>
-        <Divider />
-        {adminview ? (
-          <Grid container justifyContent="flex-end" alignItems="center">
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                p: 2,
-              }}
-              item
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                startIcon={blockedAccount ? <CheckCircleOutlineIcon /> : <BlockIcon />}
-                style={{ backgroundColor: blockedAccount ? "green" : "red", color: "white" }}
-                onClick={() => updateAccountStatus(_id, blockedAccount)}
-              >
-                {blockedAccount ? "Débloquer" : "Bloquer le compte"}
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                p: 2,
-              }}
-              item
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                onClick={() => setOpenModal(true)}
-              >
-                Supprimer
-              </Button>
-            </Box>
+          <Grid item md={6} xs={12}>
+            <TextField
+              fullWidth
+              label="Prénom"
+              name="firstName"
+              onChange={handleChange}
+              required
+              value={values.firstName || ""}
+              variant="outlined"
+            />
           </Grid>
-        ) : (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              p: 2,
-            }}
-          ></Box>
-        )}
-      </Card>
-    </form>
+          <Grid item md={6} xs={12}>
+            <TextField
+              fullWidth
+              label="Adresse mail"
+              helperText="Vous pouvez pas changer votre adresse mail !"
+              name="email"
+              required
+              value={email || ""}
+              variant="outlined"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <TextField
+              fullWidth
+              label="téléphone"
+              name="phoneNumber"
+              onChange={handleChange}
+              type="tel"
+              value={values.phoneNumber || ""}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
+      <Divider />
+      <Grid container justifyContent="flex-end" alignItems="center">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
+          }}
+          item
+        >
+          <Button
+            color="primary"
+            variant="contained"
+            startIcon={<EditIcon />}
+            disabled={!values.firstName || !values.lastName || !values.phoneNumber}
+            onClick={updateProfileHandler}
+          >
+            Modifier les informations
+          </Button>
+        </Box>
+      </Grid>
+    </Card>
   );
 };
+
+const mapStateToProps = ({ auth }) => ({
+  authenticatedUser: auth.user,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfile: (data) => dispatch(actions.updateProfile(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountProfileDetails);
