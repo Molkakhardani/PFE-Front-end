@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import getById from "../../services/getById";
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+
 import DeleteIcon from "@mui/icons-material/Delete";
 import BlockIcon from "@mui/icons-material/Block";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -19,42 +21,20 @@ import localization from "moment/locale/fr";
 
 moment.locale("fr", localization);
 
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-];
-
 export const AccountProfileDetailsAdmin = (props) => {
-  const { userProfile, onDeleteUser, updateAccountStatus } = props;
-  const { _id, lastName, firstName, email, phoneNumber, post, date, active } = userProfile || {};
+  const { userid, onDeleteUser, updateAccountStatus } = props;
 
+  const [currentUser, setCurrentUser] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [values, setValues] = useState({
-    firstName,
-    lastName,
-    email,
-    phone: phoneNumber,
-    post,
-    state: "Alabama",
-    country: "USA",
-  });
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  const { _id, lastName, firstName, email, phoneNumber, post, date, active } = currentUser || {};
+
+  useEffect(async () => {
+    if (userid) {
+      const { user } = await getById("user", userid);
+      setCurrentUser(user);
+    }
+  }, [userid]);
 
   const blockedAccount = !active;
   return (
@@ -77,14 +57,13 @@ export const AccountProfileDetailsAdmin = (props) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
                 label="First name"
                 name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
-                disabled
+                value={firstName || ""}
+                variant="filled"
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -92,11 +71,11 @@ export const AccountProfileDetailsAdmin = (props) => {
                 fullWidth
                 label="Last name"
                 name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-                disabled
+                value={lastName || ""}
+                variant="filled"
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -104,11 +83,11 @@ export const AccountProfileDetailsAdmin = (props) => {
                 fullWidth
                 label="Email Address"
                 name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-                disabled
+                value={email || ""}
+                variant="filled"
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -116,23 +95,12 @@ export const AccountProfileDetailsAdmin = (props) => {
                 fullWidth
                 label="Phone Number"
                 name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-                disabled
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Post"
-                name="post"
-                onChange={handleChange}
-                required
-                value={values.post}
-                variant="outlined"
-                disabled
+                type="tel"
+                value={phoneNumber || ""}
+                variant="filled"
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
           </Grid>

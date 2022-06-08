@@ -52,7 +52,6 @@ const Login = ({ errorsAuth, loginUser }) => {
   };
 
   const handleSignIn = () => {
-    console.log();
     loginUser(formState.values, router);
   };
 

@@ -6,10 +6,9 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { AccountProfileDetailsAdmin } from "../../components/account/account-profile-details-admin";
 import DashboardLayout from "../../components/dashboard-layout";
 
-const userProfile = ({ users, deleteAccount, updatedAccountStatus }) => {
+const userProfile = ({ deleteAccount, updatedAccountStatus }) => {
   const router = useRouter();
   const { uid } = router.query;
-  const currentUser = users.find((user) => user._id === uid) || {};
 
   return (
     <>
@@ -27,7 +26,7 @@ const userProfile = ({ users, deleteAccount, updatedAccountStatus }) => {
           <Grid container spacing={3}>
             <Grid item lg={12} md={12} xs={12}>
               <AccountProfileDetailsAdmin
-                userProfile={currentUser}
+                userid={uid}
                 onDeleteUser={(id) => deleteAccount(id, router)}
                 updateAccountStatus={(id, updatedStatus) =>
                   updatedAccountStatus(id, updatedStatus, router)

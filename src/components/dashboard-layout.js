@@ -16,7 +16,6 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 }));
 
 const DashboardLayout = ({ children, authenticatedUser }) => {
-  console.log({ authenticatedUser });
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (

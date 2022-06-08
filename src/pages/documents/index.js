@@ -31,7 +31,7 @@ const Documents = ({ loadUsers, users = [] }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log({ MyDocuments, AllDocuments });
+
   return (
     <Box sx={{ width: "100%" }}>
       <Tabs

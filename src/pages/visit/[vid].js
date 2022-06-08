@@ -4,12 +4,11 @@ import * as actions from "../../store/actions";
 import Head from "next/head";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import DashboardLayout from "../../components/dashboard-layout";
-import { VisitAccount } from "src/components/account/visit-account";
+import { VisitPage } from "src/components/visit/visit-page";
 
-const VisitProfile = ({ visits, deleteAccountVisit, updateVisitHandler }) => {
+const VisitProfile = ({ deleteAccountVisit, updateVisitHandler }) => {
   const router = useRouter();
   const { vid } = router.query;
-  const currentVisit = visits.find((visit) => visit._id === vid) || {};
 
   return (
     <>
@@ -26,8 +25,8 @@ const VisitProfile = ({ visits, deleteAccountVisit, updateVisitHandler }) => {
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item lg={12} md={12} xs={12}>
-              <VisitAccount
-                visitProfile={currentVisit}
+              <VisitPage
+                visitid={vid}
                 onDeleteVisit={(id) => deleteAccountVisit(id, router)}
                 updateAccountVisit={(updatedData) => updateVisitHandler(updatedData, router)}
               />

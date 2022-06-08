@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import getById from "../../services/getById";
 import moment from "moment";
 import validate from "validate.js";
 import DatePicker from "react-datepicker";
@@ -25,7 +26,7 @@ import {
   Grid,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import DeleteModal from "./delete-modal";
+import DeleteModal from "../account/delete-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import SaveIcon from "@mui/icons-material/Save";
 import { CleaningServices } from "@mui/icons-material";
@@ -45,8 +46,15 @@ const states = [
   },
 ];
 
-export const VisitAccount = (props) => {
-  const { visitProfile, adminview = true, onDeleteVisit, updateAccountVisit } = props;
+export const VisitPage = ({ visitid, onDeleteVisit, updateAccountVisit }) => {
+  const [currentVisit, setCurrentVisit] = useState(null);
+
+  useEffect(async () => {
+    if (visitid) {
+      const { visit } = await getById("visit", visitid);
+      setCurrentVisit(visit);
+    }
+  }, [visitid]);
 
   const {
     _id,
@@ -59,8 +67,8 @@ export const VisitAccount = (props) => {
     description,
     creationDate,
     date,
-  } = visitProfile || {};
-
+  } = currentVisit || {};
+  console.log({ currentVisit });
   const [startDate, setStartDate] = useState(moment(date).toDate());
 
   const [openModal, setOpenModal] = useState(false);
@@ -115,7 +123,7 @@ export const VisitAccount = (props) => {
           <Box sx={{ my: 3 }}>
             <Typography color="textPrimary" variant="h4" style={{ textAlign: "center" }}>
               <CardHeader
-                subheader={!adminview ? "The information can be edited" : null}
+                /*   subheader={!adminview ? "The information can be edited" : null} */
                 title={`La visite de ${firstName} ${lastName} `}
               />
             </Typography>
@@ -125,24 +133,26 @@ export const VisitAccount = (props) => {
             fullWidth
             label="nom"
             name="lastName"
-            onChange={handleChange}
             required
             margin="normal"
-            value={values.lastName}
-            variant="outlined"
-            // disabled={adminview}
+            value={lastName || ""}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
           />
 
           <TextField
             fullWidth
             label="Prénom"
             name="firstName"
-            onChange={handleChange}
             required
             margin="normal"
-            value={values.firstName}
-            variant="outlined"
-            // disabled={adminview}
+            value={firstName || ""}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
           />
 
           <TextField
@@ -152,39 +162,44 @@ export const VisitAccount = (props) => {
             onChange={handleChange}
             required
             margin="normal"
-            value={values.email}
-            variant="outlined"
-            // disabled={adminview}
+            value={email || ""}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             fullWidth
             label="Phone Number"
             name="phoneNumber"
             margin="normal"
-            onChange={handleChange}
-            value={values.phoneNumber}
-            variant="outlined"
-            //disabled={adminview}
+            value={phoneNumber || ""}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             fullWidth
             label="titre de visite"
             name="title"
-            onChange={handleChange}
-            value={values.title}
+            value={title || ""}
             margin="normal"
-            variant="outlined"
-            //disabled={adminview}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             fullWidth
             label="description"
             name="description"
-            onChange={handleChange}
-            value={values.description}
-            variant="outlined"
+            value={description || ""}
+            variant="filled"
+            InputProps={{
+              readOnly: true,
+            }}
             margin="normal"
-            //disabled={adminview}
             multiline
             rows={4}
           />
@@ -194,12 +209,13 @@ export const VisitAccount = (props) => {
             </Typography>
 
             <DatePicker
-              selected={startDate}
+              selected={startDate || ""}
               onChange={(date) => setStartDate(date)}
               variant="outlined"
               showTimeSelect
               timeFormat="HH:mm"
               dateFormat="dd-MM-yyyy"
+              disabled
             />
             <FormControl fullWidth style={{ margin: "20px 0" }}>
               <InputLabel id="demo-simple-select-label">status</InputLabel>
@@ -207,9 +223,10 @@ export const VisitAccount = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 onChange={handleChange}
-                value={values.status}
+                value={status || 0}
                 name="status"
                 variant="outlined"
+                disabled
               >
                 <MenuItem value={0}>Cloturé</MenuItem>
                 <MenuItem value={1}>en cours</MenuItem>
