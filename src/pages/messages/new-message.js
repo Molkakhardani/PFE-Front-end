@@ -27,7 +27,7 @@ import DashboardLayout from "../../components/dashboard-layout";
 import { MessageDestination } from "../../components/messages/message-destination";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const Register = ({ loadUsers, users = {} }) => {
+const Register = ({ loadUsers, users = {}, sendMessageHandler }) => {
   const router = useRouter();
   const { users: allUsers } = users;
 
@@ -35,7 +35,7 @@ const Register = ({ loadUsers, users = {} }) => {
   const [destinations, setDestinations] = useState([]);
   const [formState, setFormState] = useState({
     subject: "",
-    description: "",
+    messageBody: "",
   });
 
   useEffect(() => {
@@ -52,8 +52,13 @@ const Register = ({ loadUsers, users = {} }) => {
     }));
   };
 
-  const sendMessageHandler = (event) => {
+  const sendMessage = (event) => {
     console.log({ formState, destinations });
+    const newMessage = {
+      ...formState,
+      destinations,
+    };
+    sendMessageHandler(newMessage, router);
   };
 
   return (
@@ -90,12 +95,11 @@ const Register = ({ loadUsers, users = {} }) => {
         />
         <TextField
           fullWidth
-          label="description"
-          name="description"
+          label="messageBody"
+          name="messageBody"
           onChange={handleChange}
           variant="outlined"
           margin="normal"
-          //disabled={adminview}
           multiline
           rows={19}
         />
@@ -105,8 +109,8 @@ const Register = ({ loadUsers, users = {} }) => {
             fullWidth
             size="large"
             variant="contained"
-            disabled={!formState.subject || !formState.description}
-            onClick={sendMessageHandler}
+            disabled={!formState.subject || !formState.messageBody}
+            onClick={sendMessage}
           >
             Envoyer le message
           </Button>
@@ -123,6 +127,7 @@ const mapStateToProps = ({ users }) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     loadUsers: () => dispatch(actions.loadUsers()),
+    sendMessageHandler: (message, router) => dispatch(actions.sendMessage(message, router)),
   };
 };
 

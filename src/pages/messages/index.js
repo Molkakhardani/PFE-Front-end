@@ -24,9 +24,13 @@ function TabPanel(props) {
   );
 }
 
-const Messages = ({ loadUsers, users = [] }) => {
+const Messages = ({ getUserMessage, users = [], authenticatedUser }) => {
   const [searchValue, setSearchValue] = useState("");
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    getUserMessage();
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -47,7 +51,7 @@ const Messages = ({ loadUsers, users = [] }) => {
         <Tab value={1} label="Messages envoyés" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <MessagesReceived />
+        <MessagesReceived authenticateduser={authenticatedUser} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MessagesSended />
@@ -56,13 +60,14 @@ const Messages = ({ loadUsers, users = [] }) => {
   );
 };
 
-const mapStateToProps = ({ users }) => ({
+const mapStateToProps = ({ users, auth }) => ({
   users: users.users,
+  authenticatedUser: auth.user,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUsers: () => dispatch(actions.loadUsers()),
+    getUserMessage: () => dispatch(actions.getUserMessage()),
   };
 };
 

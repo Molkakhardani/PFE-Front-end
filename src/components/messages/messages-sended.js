@@ -3,13 +3,12 @@ import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
-import { MessagesList } from "../../components/messages/messages-list";
+import MessagesSendedList from "../../components/messages/messages-sended-list";
 import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
-import { messages } from "../../__mocks__/messages";
 import DashboardLayout from "../../components/dashboard-layout";
 import { MessagesToolbar } from "../../components/messages/messages-toolbar";
 
-const MessagesSended = ({ loadUsers, users = [] }) => {
+const MessagesSended = ({ loadUsers, messages = [] }) => {
   const [searchValue, setSearchValue] = useState("");
 
   return (
@@ -28,11 +27,9 @@ const MessagesSended = ({ loadUsers, users = [] }) => {
               title={`Messages envoyés (${messages.length})`}
             />
             <Box sx={{ mt: 3 }}>
-              <MessagesList
+              <MessagesSendedList
                 messages={messages.filter(({ subject, sender }) =>
-                  [subject.toLowerCase(), sender.toLowerCase()].some((value) =>
-                    value.includes(searchValue.toLowerCase())
-                  )
+                  [subject.toLowerCase()].some((value) => value.includes(searchValue.toLowerCase()))
                 )}
               />
             </Box>
@@ -47,8 +44,8 @@ const MessagesSended = ({ loadUsers, users = [] }) => {
   );
 };
 
-const mapStateToProps = ({ users }) => ({
-  users: users.users,
+const mapStateToProps = ({ messages = {}, auth = {} }) => ({
+  messages: messages.messages,
 });
 
 const mapDispatchToProps = (dispatch) => {

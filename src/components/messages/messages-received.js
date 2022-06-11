@@ -3,15 +3,17 @@ import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
 import { Box, Container, Typography, Grid } from "@mui/material";
-import { MessagesList } from "../../components/messages/messages-list";
+import MessagesRecievedList from "../../components/messages/messages-recieved-list";
 import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
-import { messages } from "../../__mocks__/messages";
+
 import DashboardLayout from "../../components/dashboard-layout";
 import { MessagesToolbar } from "../../components/messages/messages-toolbar";
 
-const MessagesReceived = ({ loadUsers, users = [] }) => {
+const MessagesReceived = ({ getUserMessage, openMessage, received = [], authenticateduser }) => {
   const [searchValue, setSearchValue] = useState("");
-
+  useEffect(() => {
+    getUserMessage();
+  }, []);
   return (
     <Box
       component="main"
@@ -21,18 +23,22 @@ const MessagesReceived = ({ loadUsers, users = [] }) => {
       }}
     >
       <Container maxWidth={false}>
-        {messages.length > 0 ? (
+        {received.length > 0 ? (
           <>
             <MessagesToolbar
               onSearchHandler={(val) => setSearchValue(val)}
-              title={`Messages reçus (${messages.length})`}
+              title={`Messages reçus (${received.length})`}
             />
             <Box sx={{ mt: 3 }}>
-              <MessagesList
-                messages={messages.filter(({ subject, sender }) =>
-                  [subject.toLowerCase(), sender.toLowerCase()].some((value) =>
-                    value.includes(searchValue.toLowerCase())
-                  )
+              <MessagesRecievedList
+                user={authenticateduser}
+                openMessage={openMessage}
+                messages={received.filter(({ subject, sender }) =>
+                  [
+                    subject?.toLowerCase(),
+                    sender?.lastName.toLowerCase(),
+                    sender?.firstName.toLowerCase(),
+                  ].some((value) => value?.includes(searchValue.toLowerCase()))
                 )}
               />
             </Box>
@@ -47,13 +53,15 @@ const MessagesReceived = ({ loadUsers, users = [] }) => {
   );
 };
 
-const mapStateToProps = ({ users }) => ({
-  users: users.users,
+const mapStateToProps = ({ messages = {}, auth = {} }) => ({
+  messages: messages.messages,
+  received: messages.receivedMessages,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUsers: () => dispatch(actions.loadUsers()),
+    openMessage: (id) => dispatch(actions.openMessage(id)),
+    getUserMessage: () => dispatch(actions.getUserMessage()),
   };
 };
 
