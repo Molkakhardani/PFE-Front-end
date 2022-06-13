@@ -34,50 +34,52 @@ const MessagesRecievedList = ({ messages, user = {}, openMessage, ...rest }) => 
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableBody>
-              {messages.map(({ _id, subject, read = true, timestamp, destinations, sender }) => {
-                const isReadMessage = isReadMessageHandler(destinations);
-                return (
-                  <Link key={_id} href={`/messages/${_id}`}>
-                    <TableRow
-                      sx={{
-                        "&:hover": {
-                          cursor: "pointer",
-                        },
-                      }}
-                      style={{
-                        backgroundColor: isReadMessage ? "#e9e9e9" : "white",
-                      }}
-                      onClick={() => onOpenMessage(_id)}
-                    >
-                      <TableCell style={{ width: "5%" }}>
-                        <Box
-                          sx={{
-                            alignItems: "center",
-                            display: "flex",
-                          }}
+              {messages
+                .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
+                .map(({ _id, subject, read = true, timestamp, destinations, sender }) => {
+                  const isReadMessage = isReadMessageHandler(destinations);
+                  return (
+                    <Link key={_id} href={`/messages/${_id}`}>
+                      <TableRow
+                        sx={{
+                          "&:hover": {
+                            cursor: "pointer",
+                          },
+                        }}
+                        style={{
+                          backgroundColor: isReadMessage ? "#e9e9e9" : "white",
+                        }}
+                        onClick={() => onOpenMessage(_id)}
+                      >
+                        <TableCell style={{ width: "5%" }}>
+                          <Box
+                            sx={{
+                              alignItems: "center",
+                              display: "flex",
+                            }}
+                          >
+                            <Avatar src={user.imageUrl} sx={{ mr: 1 }} />
+                          </Box>
+                        </TableCell>
+                        <TableCell
+                          style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "15%" }}
                         >
-                          <Avatar src={user.imageUrl} sx={{ mr: 1 }} />
-                        </Box>
-                      </TableCell>
-                      <TableCell
-                        style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "15%" }}
-                      >
-                        {sender.lastName} {sender.firstName}
-                      </TableCell>
-                      <TableCell
-                        style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "50%" }}
-                      >
-                        {subject}
-                      </TableCell>
-                      <TableCell
-                        style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "20%" }}
-                      >
-                        {moment(timestamp).format("LLLL")}
-                      </TableCell>
-                    </TableRow>
-                  </Link>
-                );
-              })}
+                          {sender.lastName} {sender.firstName}
+                        </TableCell>
+                        <TableCell
+                          style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "50%" }}
+                        >
+                          {subject}
+                        </TableCell>
+                        <TableCell
+                          style={{ fontWeight: isReadMessage ? "normal" : "bold", width: "20%" }}
+                        >
+                          {moment(timestamp).format("LLLL")}
+                        </TableCell>
+                      </TableRow>
+                    </Link>
+                  );
+                })}
             </TableBody>
           </Table>
         </Box>

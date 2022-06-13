@@ -12,6 +12,17 @@ export const getById = async (dataType, id) => {
   }
 };
 
+export const getMessageById = async (id) => {
+  const token = localStorage.getItem("jwtToken");
+  setAuthToken(token);
+  try {
+    const { data } = await axios.get(`http://localhost:5000/api/message/${id}`);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const updatePassword = async (updatedData) => {
   const token = localStorage.getItem("jwtToken");
   setAuthToken(token);
