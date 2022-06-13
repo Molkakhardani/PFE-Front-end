@@ -23,26 +23,24 @@ const MessagesReceived = ({ getUserMessage, openMessage, received = [], authenti
       }}
     >
       <Container maxWidth={false}>
+        <MessagesToolbar
+          onSearchHandler={(val) => setSearchValue(val)}
+          title={`Messages reçus (${received.length})`}
+        />
         {received.length > 0 ? (
-          <>
-            <MessagesToolbar
-              onSearchHandler={(val) => setSearchValue(val)}
-              title={`Messages reçus (${received.length})`}
+          <Box sx={{ mt: 3 }}>
+            <MessagesRecievedList
+              user={authenticateduser}
+              openMessage={openMessage}
+              messages={received.filter(({ subject, sender }) =>
+                [
+                  subject?.toLowerCase(),
+                  sender?.lastName.toLowerCase(),
+                  sender?.firstName.toLowerCase(),
+                ].some((value) => value?.includes(searchValue.toLowerCase()))
+              )}
             />
-            <Box sx={{ mt: 3 }}>
-              <MessagesRecievedList
-                user={authenticateduser}
-                openMessage={openMessage}
-                messages={received.filter(({ subject, sender }) =>
-                  [
-                    subject?.toLowerCase(),
-                    sender?.lastName.toLowerCase(),
-                    sender?.firstName.toLowerCase(),
-                  ].some((value) => value?.includes(searchValue.toLowerCase()))
-                )}
-              />
-            </Box>
-          </>
+          </Box>
         ) : (
           <Typography sx={{ m: 1 }} variant="h6">
             Vous n&apos;avez pas encore créer des comptes utilisateurs

@@ -40,7 +40,17 @@ export const UsersList = ({ users, isAdmin, ...rest }) => {
             </TableHead>
             <TableBody>
               {users.map(
-                ({ _id, lastName, firstName, email, imageUrl, phoneNumber, date, active }) => (
+                ({
+                  _id,
+                  lastName,
+                  firstName,
+                  email,
+                  imageUrl,
+                  phoneNumber,
+                  date,
+                  active,
+                  account,
+                }) => (
                   <Link key={_id} href={isAdmin ? `/user/${_id}` : ""}>
                     <TableRow
                       sx={{
@@ -60,7 +70,7 @@ export const UsersList = ({ users, isAdmin, ...rest }) => {
                             {getInitials(lastName)}
                           </Avatar>
                           <Typography color="textPrimary" variant="body1">
-                            {lastName} {firstName}
+                            {lastName} {firstName} {+account === 1 && "(admin)"}
                           </Typography>
                         </Box>
                       </TableCell>

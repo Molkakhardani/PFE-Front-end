@@ -23,6 +23,17 @@ export const getMessageById = async (id) => {
   }
 };
 
+export const deleteMessageById = async (id, router) => {
+  const token = localStorage.getItem("jwtToken");
+  setAuthToken(token);
+  try {
+    await axios.delete(`http://localhost:5000/api/message/delete-message/${id}`);
+    router.push("/messages");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const updatePassword = async (updatedData) => {
   const token = localStorage.getItem("jwtToken");
   setAuthToken(token);

@@ -36,26 +36,30 @@ const MessagesSendedList = ({ messages, user = {}, ...rest }) => {
             <TableBody>
               {messages
                 .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
-                .map(({ _id, subject, timestamp, destinations }) => (
-                  <TableRow
-                    key={_id}
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                      },
-                    }}
-                    style={{
-                      backgroundColor: "#e9e9e9",
-                    }}
-                  >
-                    <TableCell style={{ fontWeight: "normal", width: "40%" }}>{subject}</TableCell>
-                    <TableCell style={{ fontWeight: "normal", width: "30%" }}>
-                      {destinations.length}
-                    </TableCell>
-                    <TableCell style={{ fontWeight: "normal", width: "20%" }}>
-                      {moment(timestamp).format("LLLL")}
-                    </TableCell>
-                  </TableRow>
+                .map(({ _id, subject, timestamp, destinations, public: isPublic }) => (
+                  <Link key={_id} href={`/messages/${_id}`}>
+                    <TableRow
+                      key={_id}
+                      sx={{
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
+                      }}
+                      style={{
+                        backgroundColor: "#e9e9e9",
+                      }}
+                    >
+                      <TableCell style={{ fontWeight: "normal", width: "40%" }}>
+                        {subject}
+                      </TableCell>
+                      <TableCell style={{ fontWeight: "normal", width: "30%" }}>
+                        {isPublic ? "publique" : destinations.length}
+                      </TableCell>
+                      <TableCell style={{ fontWeight: "normal", width: "20%" }}>
+                        {moment(timestamp).format("LLLL")}
+                      </TableCell>
+                    </TableRow>
+                  </Link>
                 ))}
             </TableBody>
           </Table>
