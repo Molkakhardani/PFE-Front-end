@@ -29,7 +29,7 @@ export const DocumentsToolbar = (props) => (
       </Typography>
       {props.withButton && (
         <Box sx={{ m: 1 }}>
-          <NextLink href="/messages/new-message" passHref>
+          <NextLink href="/documents/new-document" passHref>
             <Button color="primary" variant="contained">
               Partager un nouveau document
             </Button>

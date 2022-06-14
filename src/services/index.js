@@ -37,11 +37,40 @@ export const deleteMessageById = async (id, router) => {
 export const updatePassword = async (updatedData) => {
   const token = localStorage.getItem("jwtToken");
   setAuthToken(token);
-  console.log({ updatedData });
+
   try {
     const { data } = await axios.post(
       `http://localhost:5000/api/user/update-password`,
       updatedData
+    );
+    return { data };
+  } catch (err) {
+    console.error(err);
+    return { err };
+  }
+};
+
+export const sendDocument = async (documentData) => {
+  const token = localStorage.getItem("jwtToken");
+  setAuthToken(token);
+
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+  const { file, ...data } = documentData || {};
+
+  const fd = new FormData();
+  fd.append("iShareDocument", file[0]);
+
+  fd.append("data", JSON.stringify(data));
+
+  try {
+    const { data } = await axios.post(
+      `http://localhost:5000/api/document/new-document`,
+      fd,
+      config
     );
     return { data };
   } catch (err) {
