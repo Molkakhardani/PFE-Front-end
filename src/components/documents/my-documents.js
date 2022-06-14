@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import * as actions from "../../store/actions";
 import { connect } from "react-redux";
+import { getUserDocuments, deleteDocumentById } from "../../services/document";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import { DocumentsList } from "../../components/documents/documents-list";
 import { UsersListToolbar } from "../../components/customer/users-list-toolbar";
@@ -12,6 +13,21 @@ import { TotalMessages } from "../../components/messages/total-messages";
 
 const MyDocuments = ({ loadUsers, users = [] }) => {
   const [searchValue, setSearchValue] = useState("");
+  const [myDocuments, setMyDocuments] = useState([]);
+
+  const getMyDocumentsHandler = async () => {
+    const { documents = [] } = (await getUserDocuments()) || {};
+    setMyDocuments(documents);
+  };
+
+  useEffect(async () => {
+    getMyDocumentsHandler();
+  }, []);
+
+  const deleteDocumentHandler = async (id) => {
+    await deleteDocumentById(id);
+    getMyDocumentsHandler();
+  };
 
   return (
     <Box
@@ -22,27 +38,28 @@ const MyDocuments = ({ loadUsers, users = [] }) => {
       }}
     >
       <Container maxWidth={false}>
-        {documents.length > 0 ? (
-          <>
-            <DocumentsToolbar
-              onSearchHandler={(val) => setSearchValue(val)}
-              title={`Mes documents (${documents.length})`}
-              withButton
+        <DocumentsToolbar
+          onSearchHandler={(val) => setSearchValue(val)}
+          title={`Mes documents (${myDocuments.length})`}
+          withButton
+        />
+        {myDocuments.length > 0 ? (
+          <Box sx={{ mt: 3 }}>
+            <DocumentsList
+              documents={myDocuments.filter(({ subject, sender }) =>
+                [
+                  sender.firstName.toLowerCase(),
+                  sender.lastName.toLowerCase(),
+                  subject.toLowerCase(),
+                ].some((value) => value.includes(searchValue.toLowerCase()))
+              )}
+              mydocument
+              deleteDocument={deleteDocumentHandler}
             />
-
-            <Box sx={{ mt: 3 }}>
-              <DocumentsList
-                documents={documents.filter(({ title, owner }) =>
-                  [title.toLowerCase(), owner.toLowerCase()].some((value) =>
-                    value.includes(searchValue.toLowerCase())
-                  )
-                )}
-              />
-            </Box>
-          </>
+          </Box>
         ) : (
           <Typography sx={{ m: 1 }} variant="h6">
-            Vous n&apos;avez pas encore créer des comptes utilisateurs
+            Vous n&apos;avez pas encore des documents
           </Typography>
         )}
       </Container>

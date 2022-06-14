@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import validate from "validate.js";
 import * as actions from "../../store/actions";
-import { sendDocument } from "../../services";
+import { sendDocument } from "../../services/document";
 import { DropzoneArea } from "material-ui-dropzone";
 
 import { connect } from "react-redux";
@@ -27,7 +27,7 @@ import DashboardLayout from "../../components/dashboard-layout";
 import { MessageDestination } from "../../components/messages/message-destination";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const NewDocument = ({ loadUsers, users = {}, sendMessageHandler }) => {
+const NewDocument = ({ loadUsers, users = {} }) => {
   const router = useRouter();
   const { users: allUsers } = users;
 
@@ -58,7 +58,7 @@ const NewDocument = ({ loadUsers, users = {}, sendMessageHandler }) => {
       destinations,
       file,
     };
-    sendDocument(newUpload);
+    sendDocument(newUpload, router);
   };
   return (
     <Box
@@ -124,7 +124,6 @@ const mapStateToProps = ({ users }) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     loadUsers: () => dispatch(actions.loadUsers()),
-    sendMessageHandler: (message, router) => dispatch(actions.sendMessage(message, router)),
   };
 };
 
