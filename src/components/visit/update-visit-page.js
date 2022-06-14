@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import moment from "moment";
+
 import validate from "validate.js";
 import DatePicker from "react-datepicker";
 import Head from "next/head";
@@ -29,6 +29,10 @@ import DeleteModal from "../account/delete-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import SaveIcon from "@mui/icons-material/Save";
 import { CleaningServices } from "@mui/icons-material";
+
+import moment from "moment";
+import localization from "moment/locale/fr";
+moment.locale("fr", localization);
 
 const states = [
   {
@@ -188,7 +192,7 @@ export const UpdateVisitPage = (props) => {
             </Typography>
 
             <DatePicker
-              selected={startDate || date || ""}
+              selected={startDate || date}
               onChange={(date) => setStartDate(date)}
               variant="outlined"
               showTimeSelect
@@ -201,7 +205,7 @@ export const UpdateVisitPage = (props) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 onChange={handleChange}
-                value={+values.status || +status || ""}
+                value={+values.status || +status}
                 name="status"
                 variant="outlined"
               >

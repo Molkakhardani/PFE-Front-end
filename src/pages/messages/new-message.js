@@ -53,7 +53,6 @@ const Register = ({ loadUsers, users = {}, sendMessageHandler }) => {
   };
 
   const sendMessage = (event) => {
-    console.log({ formState, destinations });
     const newMessage = {
       ...formState,
       destinations,

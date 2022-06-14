@@ -5,6 +5,10 @@ import { Clock as ClockIcon } from "../../icons/clock";
 import { Download as DownloadIcon } from "../../icons/download";
 import { SeverityPill } from "../severity-pill";
 
+import moment from "moment";
+import localization from "moment/locale/fr";
+moment.locale("fr", localization);
+
 const visitMapping = [
   {
     code: 2,
@@ -29,7 +33,7 @@ const VisitStatus = (code) => {
 };
 
 const formatDateHandler = (date) => {
-  return date ? format(new Date(date), "dd/MM/yyyy") : "";
+  return date ? moment(date).format("LLLL") : "";
 };
 
 export const VisitCard = ({ visit, ...rest }) => (
@@ -69,7 +73,7 @@ export const VisitCard = ({ visit, ...rest }) => (
     <Box sx={{ flexGrow: 1 }} />
     <Divider />
     <Box sx={{ p: 2 }}>
-      <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
+      <Grid container spacing={2} sx={{ justifyContent: "space-between" }} direction="column">
         <Grid
           item
           sx={{

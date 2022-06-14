@@ -66,7 +66,7 @@ const NewVisit = ({ createVisit }) => {
 
   const createVisitHandler = (event) => {
     event.preventDefault();
-    const visitData = { ...formState.values, date: moment(startDate).format("LLLL") };
+    const visitData = { ...formState.values, date: startDate };
     createVisit(visitData, router);
   };
 
