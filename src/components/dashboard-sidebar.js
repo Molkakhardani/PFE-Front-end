@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Divider, Drawer, Typography, useMediaQuery, Avatar } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 import { Cog as CogIcon } from "../icons/cog";
@@ -18,6 +18,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
+import iShareIcon from "../../public/static/images/iShare.png";
 
 const filterItemsHandler = (itemsList, role) =>
   itemsList.filter(({ allowed }) => allowed.includes(role));
@@ -113,14 +114,24 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink href="/" passHref>
-              <a>
-                <Logo
-                  sx={{
-                    height: 42,
-                    width: 42,
-                  }}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Avatar
+                  alt="Product"
+                  src={iShareIcon}
+                  variant="square"
+                  style={{ height: "100px", width: "100px" }}
                 />
-              </a>
+                <p
+                  style={{
+                    fontSize: "22px",
+                    textAlign: "center",
+                    color: "white",
+                    marginTop: "10px",
+                  }}
+                >
+                  iShare
+                </p>
+              </div>
             </NextLink>
           </Box>
         </div>
